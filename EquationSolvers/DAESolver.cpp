@@ -132,9 +132,11 @@ bool CDAESolver::SetModel( CDAEModel* _pModel )
 	/* Create dense SUNMatrix for use in linear solves */
 	LS = SUNDenseLinearSolver(m_vectorVars, A);
 	/* Attach the matrix and linear solver */
+	#ifdef _MSC_VER
+	// TODO!!! Linux version does not have this function. We need to find and analogue
 	if (IDASetLinearSolver(m_pIDAmem, LS, A) != IDALS_SUCCESS)
 		return false;
-
+	#endif
 
 	if( !InitStoringMemory() )
 		return false;
@@ -289,8 +291,11 @@ bool CDAESolver::InitStoringMemory()
 	/* Create dense SUNMatrix for use in linear solves */
 	LS = SUNDenseLinearSolver(m_vectorVars, A);
 	/* Attach the matrix and linear solver */
+	#ifdef _MSC_VER
+	// TODO!!! Linux version does not have this function. We need to find and analogue
 	if (IDASetLinearSolver(m_pStoreIDAmem, LS, A) != IDALS_SUCCESS)
 		return false;
+	#endif
 
 	auto* originMem = static_cast<IDAMemRec*>( m_pIDAmem );
 	auto* storeMem = static_cast<IDAMemRec*>( m_pStoreIDAmem );

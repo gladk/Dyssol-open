@@ -192,8 +192,11 @@ bool CNLSolver::SetModel(CNLModel* _pModel)
 	/* Create dense SUNMatrix for use in linear solves */
 	SUNLinearSolver LS = SUNDenseLinearSolver(m_vectorVars, A);
 	/* Attach the matrix and linear solver */
+	#ifdef _MSC_VER
+	// TODO!!! Linux version does not have this function. We need to find and analogue
 	if (KINSetLinearSolver(m_pKINmem, LS, A) != KINLS_SUCCESS)
 		return false;
+	#endif
 
 	SaveState();
 
